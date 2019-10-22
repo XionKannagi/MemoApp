@@ -1,10 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import AppBar from './src/components/AppBar';
+import MemoListScreen from './src/screens/MemoDetailScreen';
+
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <AppBar />
+      <MemoListScreen />
     </View>
   );
 }
@@ -12,8 +16,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fffdf6',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 78,
   },
 });
