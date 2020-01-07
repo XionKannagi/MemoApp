@@ -7,6 +7,7 @@ import MemoListScreen from './MemoListScreen';
 
 export default function MemoDetaiScreen(props) {
   const { navigation } = props;
+
   return (
     <View style={styles.cintainer}>
       <View style={styles.memoHeader}>

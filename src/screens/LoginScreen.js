@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableHighlight } from 'react-native';
+
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableHighlight,
+} from 'react-native';
 import PropTypes from 'prop-types';
 
 export default function LoginScreen(props) {
@@ -16,17 +23,30 @@ export default function LoginScreen(props) {
         style={styles.input}
         value={email}
         onChangeText={(value) => setEmail(value)}
+        autoCapitalize="none"
+        autoCorrect={false}
+        placeholder="Email Address"
       />
       <TextInput
         style={styles.input}
         value={password}
         onChangeText={(value) => setPassword(value)}
+        autoCapitalize="none"
+        autoCorrect={false}
+        placeholder="Password"
+        secureTextEntry
       />
-      <TouchableHighlight style={styles.button} onPress={() => { navigation.navigate('Home'); }} underlayColor="#C70F66">
+      <TouchableHighlight style={styles.button} onPress={() => { handleSubmit(navigation); }} underlayColor="#C70F66">
         <Text style={styles.buttonTitle}>ログインする</Text>
       </TouchableHighlight>
     </View>
   );
+}
+
+function handleSubmit(navigation) {
+  navigation.navigate('Home');
+
+  // login
 }
 
 LoginScreen.propTypes = {
