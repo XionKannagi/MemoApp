@@ -4,20 +4,26 @@ import PropTypes from 'prop-types';
 
 export default function BodyText(props) {
   const { children } = props;
+  const { name } = props;
   return (
-    <View style={styles.text}>
-      <Text>{ children }</Text>
+    <View>
+      <Text style={styles.text}>
+        {children}
+      </Text>
+      <Text>
+        {name}
+      </Text>
     </View>
   );
 }
 
 BodyText.propTypes = {
   children: PropTypes.node.isRequired,
+  name: PropTypes.node.isRequired,
 };
 
 const styles = StyleSheet.create({
   text: {
-    color: '#ddd',
-    backgroundColor: '#eee',
+    backgroundColor: '#EEE',
   },
 });

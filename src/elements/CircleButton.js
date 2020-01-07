@@ -1,13 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, TouchableHighlight } from 'react-native';
 
-import * as Font from 'expo-font';
 import PropTypes from 'prop-types';
-
+import * as Font from 'expo-font';
+import { createIconSet } from '@expo/vector-icons';
 import fontAwsome from '../../assets/fonts/fa-solid-900.ttf';
 
+const CustomIcon = createIconSet({
+  pencil: '\uf303',
+  plus: '\uf067',
+  check: '\uf00c',
+}, 'FontAwsome');
 
-class CircleButton extends React.Component {
+export default class CircleButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,48 +25,55 @@ class CircleButton extends React.Component {
       FontAwsome: fontAwsome,
     });
 
-    this.setState({
-      fontLoaded: true,
-    });
+    this.setState({ fontLoaded: true });
   }
 
   render() {
-    const { children, style, color } = this.props;
+    const { name, style, reverseColor, onPress } = this.props;
     const { fontLoaded } = this.state;
-    let bgColor = '#e31676';
-    let textColor = '#fff';
+    let bgColor = { backgroundColor: '#E31676' };
+    let textColor = { color: '#fff' };
 
-    if (color === 'white') {
-      bgColor = '#fff';
-      textColor = '#e31676';
+    if (reverseColor) {
+      bgColor = { backgroundColor: '#fff' };
+      textColor = { color: '#E31676' };
     }
+
     return (
-      <View style={[styles.circleButton, style, bgColor]}>
-        {
-          fontLoaded ? (
-            <Text style={[styles.circleButtonTitle, { color: textColor }]}>
-              { children }
-            </Text>
-          ) : null
-        }
-      </View>
+      <TouchableHighlight style={[styles.container, style]} onPress={onPress} underlayColor="transparent">
+        <View style={[styles.circleButton, bgColor]}>
+          {
+            fontLoaded ? (
+              <CustomIcon name={name} style={[styles.circleButtonTitle, textColor]} />
+            ) : null
+          }
+        </View>
+      </TouchableHighlight>
     );
   }
 }
 
-export default CircleButton;
+CircleButton.defaultProps = {
+  style: {},
+  reverseColor: false,
+};
 
 CircleButton.propTypes = {
-  children: PropTypes.node.isRequired,
-  style: PropTypes.shape().isRequired,
-  color: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  style: PropTypes.shape(),
+  reverseColor: PropTypes.bool,
+  onPress: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
-  circleButton: {
+  container: {
+    width: 48,
+    height: 48,
     position: 'absolute',
     bottom: 32,
     right: 32,
+  },
+  circleButton: {
     width: 48,
     height: 48,
     borderRadius: 24,
@@ -74,7 +86,7 @@ const styles = StyleSheet.create({
   },
   circleButtonTitle: {
     fontFamily: 'FontAwsome',
-    fontSize: 32,
+    fontSize: 24,
     lineHeight: 32,
   },
 });
