@@ -21,6 +21,7 @@ const config = {
   measurementId: ENV.FIREBASE_MEASUREMENT_ID,
 };
 firebase.initializeApp(config);
+// firebase.analytics();
 
 const App = createStackNavigator({
   Login: {

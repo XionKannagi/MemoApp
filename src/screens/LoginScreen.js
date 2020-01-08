@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import firebase from 'firebase';
 import {
   StyleSheet,
   View,
@@ -36,17 +36,23 @@ export default function LoginScreen(props) {
         placeholder="Password"
         secureTextEntry
       />
-      <TouchableHighlight style={styles.button} onPress={() => { handleSubmit(navigation); }} underlayColor="#C70F66">
+      <TouchableHighlight style={styles.button} onPress={() => { handleSubmit(email, password, navigation); }} underlayColor="#C70F66">
         <Text style={styles.buttonTitle}>ログインする</Text>
       </TouchableHighlight>
     </View>
   );
 }
 
-function handleSubmit(navigation) {
-  navigation.navigate('Home');
-
+function handleSubmit(email, password, navigation) {
   // login
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      navigation.navigate('Home');
+    })
+    .catch((error) => {
+      // navigation.navigate('Signup');
+      console.log(error);
+    });
 }
 
 LoginScreen.propTypes = {
