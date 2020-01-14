@@ -2,11 +2,16 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import firebase from 'firebase';
 
+// require("firebase/firestore");
+// ↓ こちらを追加
+
+
 import ENV from './env.json';
 
 import MemoListScreen from './src/screens/MemoListScreen';
 import MemoDetaiScreen from './src/screens/MemoDetailScreen';
 import MemoEditScreen from './src/screens/MemoEditScreen';
+import MemoCreateScreen from './src/screens/MemoCreateScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 
@@ -38,6 +43,9 @@ const App = createStackNavigator({
   },
   MemoEdit: {
     screen: MemoEditScreen,
+  },
+  MemoCreate: {
+    screen: MemoCreateScreen,
   },
 }, {
   defaultNavigationOptions: {
