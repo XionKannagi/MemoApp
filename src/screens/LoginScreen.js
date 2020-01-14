@@ -47,7 +47,7 @@ function handleSubmit(email, password, navigation) {
   // login
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((user) => {
-      navigation.navigate('Home', user);
+      navigation.navigate('Home');
     })
     .catch((error) => {
       // navigation.navigate('Signup');
