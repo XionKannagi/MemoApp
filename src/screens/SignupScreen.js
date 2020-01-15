@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
 import {
   StyleSheet,
@@ -45,8 +46,14 @@ export default function SignupScreen(props) {
 function handleSubmit(email, password, navigation) {
   // siginin
   firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then((user) => {
-      navigation.navigate('Home');
+    .then(() => {
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Home' }),
+        ],
+      });
+      navigation.dispatch(resetAction);
     })
     .catch((error) => {
       console.log(error);

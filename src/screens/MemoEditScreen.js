@@ -34,7 +34,6 @@ function submitHandler(memo, navigation) {
       createdOn: dateTime,
     })
     .then(() => {
-      console.log('success!');
     })
     .catch((error) => {
       console.log(error);

@@ -24,20 +24,6 @@ export default function MemoListScreen(props) {
       });
   }, [db]);
 
-  /*
-    .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          loadMemoList.push({ ...doc.data(), key: doc.id });
-        });
-        setMemoList(loadMemoList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [db]);
-  */
-
   const { navigation } = props;
   return (
     <View style={styles.container}>

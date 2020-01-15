@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
 import {
   StyleSheet,
@@ -6,6 +7,7 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -39,6 +41,10 @@ export default function LoginScreen(props) {
       <TouchableHighlight style={styles.button} onPress={() => { handleSubmit(email, password, navigation); }} underlayColor="#C70F66">
         <Text style={styles.buttonTitle}>ログインする</Text>
       </TouchableHighlight>
+
+      <TouchableOpacity style={styles.siginup} onPress={() => { handlePress(navigation); }} underlayColor="#C70F66">
+        <Text style={styles.siginupText}>メンバー登録する</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -46,13 +52,22 @@ export default function LoginScreen(props) {
 function handleSubmit(email, password, navigation) {
   // login
   firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((user) => {
-      navigation.navigate('Home');
+    .then(() => {
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Home' }),
+        ],
+      });
+      navigation.dispatch(resetAction);
     })
     .catch((error) => {
-      // navigation.navigate('Signup');
       console.log(error);
     });
+}
+
+function handlePress(navigation) {
+  navigation.navigate('Signup');
 }
 
 LoginScreen.propTypes = {
@@ -91,5 +106,12 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: '#fff',
     fontSize: 18,
+  },
+  siginup: {
+    marginTop: 16,
+    alignSelf: 'center',
+  },
+  siginupText: {
+    fontSize: 16,
   },
 });

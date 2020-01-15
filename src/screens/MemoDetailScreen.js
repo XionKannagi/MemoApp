@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import { dateString } from '../utils';
 import CircleButton from '../elements/CircleButton';
-import MemoListScreen from './MemoListScreen';
 
 export default function MemoDetaiScreen(props) {
   const { navigation } = props;
@@ -33,7 +32,7 @@ export default function MemoDetaiScreen(props) {
   );
 }
 
-MemoListScreen.propTypes = {
+MemoDetaiScreen.propTypes = {
   navigation: PropTypes.shape().isRequired,
 };
 
