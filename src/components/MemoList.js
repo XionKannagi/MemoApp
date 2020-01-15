@@ -7,6 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { dateString } from '../utils';
 
 export default function MemoList(props) {
   const { navigation, memoList } = props;
@@ -16,10 +17,10 @@ export default function MemoList(props) {
       <FlatList
         data={memoList}
         renderItem={({ item }) => (
-          <TouchableHighlight onPress={() => { navigation.navigate('MemoDetail'); }}>
+          <TouchableHighlight onPress={() => { navigation.navigate('MemoDetail', { memo: item }); }}>
             <View style={styles.memoListItem}>
-              <Text style={styles.memoTitle}>{item.body}</Text>
-              <Text style={styles.memoDate}>{item.createOn}</Text>
+              <Text style={styles.memoTitle}>{item.body.substring(0, 10)}</Text>
+              <Text style={styles.memoDate}>{ dateString(item.createdOn.toDate()) }</Text>
             </View>
           </TouchableHighlight>
         )}

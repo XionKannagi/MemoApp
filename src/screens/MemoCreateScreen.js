@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native';
 import firebase from 'firebase';
 import '@firebase/firestore';
 import PropTypes from 'prop-types';
@@ -10,26 +10,26 @@ export default function MemoCreateScreen(props) {
   const { navigation } = props;
   const [body, setBody] = useState('');
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior="height" keyboardVerticalOffset="80" style={styles.container}>
       <TextInput
         style={styles.memoEditInput}
         multiline
         onChangeText={(value) => { setBody(value); }}
       />
       <CircleButton name="check" onPress={() => { handleSubmit(body, navigation); }} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 function handleSubmit(bodyText, navigation) {
   const db = firebase.firestore();
-  const user = firebase.auth().currentUser;
-  db.collection(`users/${user.uid}/memos`).add({
+  const { currentUser } = firebase.auth();
+  db.collection(`users/${currentUser.uid}/memos`).add({
     body: bodyText,
     createdOn: new Date(),
   })
-    .then((docRef) => {
-      console.log(docRef);
+    .then(() => {
+      navigation.goBack();
     })
     .catch((error) => {
       console.log(error);

@@ -1,17 +1,46 @@
-import React from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
+import '@firebase/firestore';
 
 import CircleButton from '../elements/CircleButton';
 
 export default function MemoEditScreen(props) {
   const { navigation } = props;
+  const { params } = navigation.state;
+  const [memo, setMemo] = useState(params.memo);
+
   return (
-    <View style={styles.container}>
-      <TextInput style={styles.memoEditInput} multiline value="Hi" />
-      <CircleButton name="check" onPress={() => { navigation.goBack(); }} />
-    </View>
+    <KeyboardAvoidingView behavior="height" keyboardVerticalOffset="80" style={styles.container}>
+      <TextInput
+        style={styles.memoEditInput}
+        multiline
+        value={memo.body}
+        onChangeText={(value) => { setMemo({ ...memo, body: value }); }}
+      />
+      <CircleButton name="check" onPress={() => { submitHandler(memo, navigation); }} />
+    </KeyboardAvoidingView>
   );
+}
+
+function submitHandler(memo, navigation) {
+  const { currentUser } = firebase.auth();
+  const db = firebase.firestore();
+  const dateTime = firebase.firestore.Timestamp.now();
+  db.collection(`users/${currentUser.uid}/memos`).doc(memo.key)
+    .update({
+      body: memo.body,
+      createdOn: dateTime,
+    })
+    .then(() => {
+      console.log('success!');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  navigation.state.params.onGoBack({ ...memo, createdOn: dateTime });
+  navigation.goBack();
 }
 
 MemoEditScreen.propTypes = {

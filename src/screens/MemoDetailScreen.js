@@ -1,27 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
+import { dateString } from '../utils';
 import CircleButton from '../elements/CircleButton';
 import MemoListScreen from './MemoListScreen';
 
 export default function MemoDetaiScreen(props) {
   const { navigation } = props;
+  const { params } = navigation.state;
+  const [memo, setMemo] = useState(params.memo);
+
+  useEffect(() => {
+    setMemo(params.memo);
+  }, [params]);
 
   return (
     <View style={styles.cintainer}>
       <View style={styles.memoHeader}>
         <View>
-          <Text style={styles.memoHeaderTitle}>講座のアイデア</Text>
-          <Text style={styles.memoHeaderDate}>2019/10/16</Text>
+          <Text style={styles.memoHeaderTitle}>{memo.body.substring(0, 10)}</Text>
+          <Text style={styles.memoHeaderDate}>{dateString(memo.createdOn.toDate())}</Text>
         </View>
       </View>
       <View style={styles.memoContent}>
-        <Text>
-          講座のアイデアです。
+        <Text style={styles.memoBody}>
+          {memo.body}
         </Text>
       </View>
-      <CircleButton name="pencil" reverseColor onPress={() => { navigation.navigate('MemoEdit'); }} />
+      <CircleButton name="pencil" reverseColor onPress={() => { navigation.navigate('MemoEdit', { memo, onGoBack: (value) => setMemo(value) }); }} />
     </View>
   );
 }
@@ -40,6 +47,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#17313C',
     justifyContent: 'center',
     padding: 10,
+  },
+  memoBody: {
+    lineHeight: 22,
+    fontSize: 15,
   },
   memoHeaderTitle: {
     fontSize: 20,
