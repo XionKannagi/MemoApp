@@ -18,6 +18,7 @@ export default function MemoEditScreen(props) {
         multiline
         value={memo.body}
         onChangeText={(value) => { setMemo({ ...memo, body: value }); }}
+        textAlignVertical="top"
       />
       <CircleButton name="check" onPress={() => { submitHandler(memo, navigation); }} />
     </KeyboardAvoidingView>

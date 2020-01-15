@@ -15,6 +15,7 @@ export default function MemoCreateScreen(props) {
         style={styles.memoEditInput}
         multiline
         onChangeText={(value) => { setBody(value); }}
+        textAlignVertical="top"
       />
       <CircleButton name="check" onPress={() => { handleSubmit(body, navigation); }} />
     </KeyboardAvoidingView>
